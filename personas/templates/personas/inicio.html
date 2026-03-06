@@ -1,0 +1,32 @@
+{% extends 'personas/base.html' %}
+{% block content %}
+
+<div class="p-5 mb-4 bg-dark text-white rounded-3 text-center">
+  <h1 class="display-5 fw-bold">Bienvenido a la Agenda</h1>
+  <p class="col-md-8 mx-auto fs-5">
+    Personas y Ciudades 
+  </p>
+  <a href="{% url 'lista_personas' %}" class="btn btn-primary btn-lg me-2">Ver Personas</a>
+  <a href="{% url 'crear_persona' %}" class="btn btn-outline-light btn-lg">+ Nueva Persona</a>
+</div>
+
+<div class="row text-center mt-4">
+  <div class="col-md-6">
+    <div class="card shadow-sm border-primary">
+      <div class="card-body">
+        <h2 class="display-4 fw-bold text-primary">{{ total_personas }}</h2>
+        <p class="card-text fs-5">Personas registradas</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm border-success">
+      <div class="card-body">
+        <h2 class="display-4 fw-bold text-success">{{ total_ciudades }}</h2>
+        <p class="card-text fs-5">Ciudades disponibles</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

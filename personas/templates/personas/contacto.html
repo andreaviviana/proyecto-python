@@ -1,0 +1,37 @@
+{% extends 'personas/base.html' %}
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <h2 class="mb-4"> Contáctanos</h2>
+
+    {% if enviado %}
+      <div class="alert alert-success">
+         ¡Mensaje enviado correctamente! Gracias por escribirnos.
+      </div>
+    {% endif %}
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre" class="form-control" placeholder="Tu nombre" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" name="correo" class="form-control" placeholder="tucorreo@email.com" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Mensaje</label>
+            <textarea name="mensaje" class="form-control" rows="5" placeholder="Escribe tu mensaje..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Enviar mensaje</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

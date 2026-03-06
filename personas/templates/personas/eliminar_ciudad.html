@@ -1,0 +1,22 @@
+{% extends 'personas/base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Eliminar Ciudad</h2>
+
+    {% if error %}
+    <div class="alert alert-danger">
+        ⚠️ {{ error }}
+    </div>
+    {% else %}
+    <p>¿Estás seguro de eliminar la ciudad <strong>{{ ciudad.nombre }}</strong>?</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {% if not error %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        {% endif %}
+        <a href="{% url 'lista_ciudades' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

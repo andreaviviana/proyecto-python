@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --color-1: #ff6b6b;
+      --color-2: #feca57;
+      --color-3: #48dbfb;
+      --color-4: #ff9ff3;
+      --color-5: #54a0ff;
+      --color-6: #5f27cd;
+      --dark: #1a1a2e;
+      --dark2: #16213e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      width: 500px;
+      height: 500px;
+      background: var(--color-5);
+      top: -100px;
+      left: -100px;
+      animation: blobMove1 12s ease-in-out infinite alternate;
+    }
+
+    body::after {
+      width: 400px;
+      height: 400px;
+      background: var(--color-1);
+      bottom: -100px;
+      right: -100px;
+      animation: blobMove2 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes blobMove1 {
+      to {
+        transform: translate(80px, 60px) scale(1.1);
+      }
+    }
+
+    @keyframes blobMove2 {
+      to {
+        transform: translate(-80px, -60px) scale(1.15);
+      }
+    }
+
+
+    .navbar {
+      background: rgba(30, 26, 46, 0.95) !important;
+      backdrop-filter: blur(20px);
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(90deg, var(--color-1), var(--color-2), var(--color-3), var(--color-4), var(--color-5)) 1;
+      padding: 12px 0;
+      position: relative;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 1.6rem !important;
+      background: linear-gradient(135deg, var(--color-2), var(--color-1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.75) !important;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 8px 14px !important;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      margin: 0 2px;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-link:hover {
+      color: white !important;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .nav-link i {
+      margin-right: 6px;
+    }
+
+
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-custom {
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 24px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      width: 100%;
+      max-width: 1000px;
+      padding: 40px;
+      animation: fadeInUp 0.5s ease;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    .page-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      margin-bottom: 24px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .page-title::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--color-1), var(--color-2));
+    }
+
+
+    .btn-add {
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 24px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+      font-size: 0.9rem;
+    }
+
+    .btn-add:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+      color: white;
+    }
+
+    .btn-edit {
+      background: linear-gradient(135deg, #54a0ff, #5f27cd);
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      transition: all 0.3s ease;
+      font-size: 0.82rem;
+    }
+
+    .btn-edit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(84, 160, 255, 0.5);
+      color: white;
+    }
+
+    .btn-delete {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white;
+      font-weight: 600;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      transition: all 0.3s ease;
+      font-size: 0.82rem;
+    }
+
+    .btn-delete:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.5);
+      color: white;
+    }
+
+    .btn-save {
+      background: linear-gradient(135deg, #48dbfb, #0abde3);
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 28px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(72, 219, 251, 0.4);
+    }
+
+    .btn-save:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(72, 219, 251, 0.5);
+      color: white;
+    }
+
+    .btn-cancel {
+      background: rgba(0, 0, 0, 0.07);
+      color: #555;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 24px;
+      transition: all 0.3s;
+    }
+
+    .btn-cancel:hover {
+      background: rgba(0, 0, 0, 0.13);
+      color: #333;
+    }
+
+
+    .table-custom {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .table-custom thead tr {
+      background: linear-gradient(135deg, var(--color-5), var(--color-6));
+      color: white;
+    }
+
+    .table-custom thead th {
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      border: none;
+    }
+
+    .table-custom tbody tr {
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .table-custom tbody tr:hover {
+      background: linear-gradient(135deg, rgba(84, 160, 255, 0.06), rgba(255, 107, 107, 0.06));
+      transform: scale(1.005);
+    }
+
+    .table-custom td {
+      padding: 13px 18px;
+      vertical-align: middle;
+      font-size: 0.9rem;
+      border: none;
+    }
+
+    .table-custom tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+
+    .form-label {
+      font-weight: 700;
+      color: #333;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+
+    .form-control,
+    .form-select {
+      border: 2px solid #e8e8e8;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      background: #fafafa;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--color-5);
+      box-shadow: 0 0 0 4px rgba(84, 160, 255, 0.15);
+      background: white;
+    }
+
+
+    .alert-danger {
+      background: linear-gradient(135deg, #fff5f5, #ffe0e0);
+      border: 2px solid #ffb3b3;
+      border-radius: 14px;
+      color: #c0392b;
+      font-weight: 600;
+    }
+
+    .alert-success {
+      background: linear-gradient(135deg, #f0fff4, #d4efdf);
+      border: 2px solid #a9dfbf;
+      border-radius: 14px;
+      color: #1e8449;
+      font-weight: 600;
+    }
+
+
+    .badge-custom {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      background: rgba(26, 26, 46, 0.95);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.82rem;
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    footer span {
+      background: linear-gradient(135deg, var(--color-1), var(--color-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: #aaa;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'inicio' %}">
+        <i class="fas fa-address-book"></i> Agenda
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'inicio' %}"><i class="fas fa-home"></i> Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'lista_personas' %}"><i class="fas fa-users"></i> Personas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'lista_ciudades' %}"><i class="fas fa-city"></i> Ciudades</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contacto' %}"><i class="fas fa-envelope"></i> Contáctanos</a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <span class="nav-link" style="color:#feca57 !important;">
+              <i class="fas fa-user-shield me-1"></i>{{ user.username }}
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}" style="color:#ff6b6b !important;">
+              <i class="fas fa-right-from-bracket"></i> Salir
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="main-wrapper">
+    <div class="card-custom">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <i class="fas fa-circle-info me-2"></i>{{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+
+  <footer>
+    Agenda &copy; 2026 — Hecho con <span>♥</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
